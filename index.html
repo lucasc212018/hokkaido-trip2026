@@ -93,9 +93,6 @@
                         <p class="text-[10px] text-ink/70">11D10N • 2026/12/15 - 12/25</p>
                     </div>
                 </div>
-                <div class="text-xs bg-yamabuki px-2.5 py-1 rounded-full font-bold border-2 border-ink">
-                    OTS Self-Drive 🚙
-                </div>
             </div>
 
             <!-- Tab 按鈕 (Icon方式橫向呈現, 全英文/英文優先) -->
@@ -106,20 +103,20 @@
                 <button onclick="switchTab('checklist')" id="tab-btn-checklist" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
                     <i class="fa-solid fa-suitcase-rolling"></i> <span>Checklist</span>
                 </button>
-                <button onclick="switchTab('supermarket')" id="tab-btn-supermarket" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
-                    <i class="fa-solid fa-cart-shopping"></i> <span>Supermarket</span>
-                </button>
                 <button onclick="switchTab('info')" id="tab-btn-info" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
                     <i class="fa-solid fa-circle-info"></i> <span>Info</span>
-                </button>
-                <button onclick="switchTab('shoplist')" id="tab-btn-shoplist" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
-                    <i class="fa-solid fa-store"></i> <span>Shop List</span>
                 </button>
                 <button onclick="switchTab('shopping')" id="tab-btn-shopping" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
                     <i class="fa-solid fa-basket-shopping"></i> <span>To-buy list</span>
                 </button>
                 <button onclick="switchTab('expense')" id="tab-btn-expense" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
                     <i class="fa-solid fa-yen-sign"></i> <span>Expenses</span>
+                </button>
+                <button onclick="switchTab('shoplist')" id="tab-btn-shoplist" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-store"></i> <span>Shop List</span>
+                </button>
+                <button onclick="switchTab('supermarket')" id="tab-btn-supermarket" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-cart-shopping"></i> <span>Supermarket</span>
                 </button>
                 <button onclick="switchTab('restaurant')" id="tab-btn-restaurant" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
                     <i class="fa-solid fa-utensils"></i> <span>Restaurants</span>
@@ -586,7 +583,8 @@
 
         const defaultShoppingItems = [
             { id: "b2", name: "ROYCE' Nama Chocolate (生巧克力)", qty: "4 Boxes", bought: false, imgType: "royce", notes: "Au Lait & Champagne flavor (Buy at airport with cooler bag)" },
-            { id: "b3", name: "Rokkatei Marusei Butter Sandwich (六花亭蘭姆葡萄奶油夾心餅)", qty: "3 Boxes", bought: false, imgType: "rokkatei", notes: "Classic Hokkaido souvenir" }
+            { id: "b3", name: "Rokkatei Marusei Butter Sandwich (六花亭蘭姆葡萄奶油夾心餅)", qty: "3 Boxes", bought: false, imgType: "rokkatei", notes: "Classic Hokkaido souvenir" },
+            { id: "b4", name: "六花亭 士多啤梨朱古力（草莓夾心朱古力）", qty: "3 Boxes", bought: false, imgType: "rokkatei_strawberry", notes: "Whole freeze-dried strawberry coated in rich white/milk chocolate / 整顆凍乾草莓包裹香濃白朱古力" }
         ];
 
         const defaultExpenses = [
@@ -946,26 +944,163 @@
         }
 
         function getShoppingItemVisual(item) {
-            if (item.imgUrl) {
-                return `<img src="${item.imgUrl}" alt="${item.name}" onerror="this.style.display='none'" class="w-full h-36 object-cover rounded-xl border-2 border-ink mb-2 bg-cream">`;
+            if (item.imgData || item.imgUrl) {
+                const src = item.imgData || item.imgUrl;
+                return `<img src="${src}" alt="${item.name}" onerror="this.style.display='none'" class="w-full h-40 object-cover rounded-xl border-2 border-ink mb-2 bg-cream">`;
             }
             if (item.imgType === 'royce') {
                 return `
-                    <svg viewBox="0 0 300 130" class="w-full h-36 rounded-xl border-2 border-ink mb-2 bg-iceblue">
-                        <rect x="45" y="20" width="210" height="90" rx="10" fill="#1E3A5F" stroke="#3E3A39" stroke-width="3"/>
-                        <rect x="55" y="28" width="190" height="74" rx="6" fill="none" stroke="#FAD77B" stroke-width="2"/>
-                        <text x="150" y="62" font-size="22" font-weight="bold" text-anchor="middle" fill="#FFFDF9" letter-spacing="3">ROYCE'</text>
-                        <text x="150" y="84" font-size="11" font-weight="bold" text-anchor="middle" fill="#FAD77B">NAMA CHOCOLATE • 生チョコレート</text>
+                    <svg viewBox="0 0 320 150" class="w-full h-40 rounded-xl border-2 border-ink mb-2 bg-iceblue">
+                        <defs>
+                            <filter id="handdrawn-royce" x="-5%" y="-5%" width="110%" height="110%">
+                                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise"/>
+                                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" />
+                            </filter>
+                        </defs>
+                        <g filter="url(#handdrawn-royce)">
+                            <!-- 背景柔和雲朵筆觸 -->
+                            <ellipse cx="60" cy="30" rx="45" ry="18" fill="#FFFDF9" opacity="0.65"/>
+                            <ellipse cx="265" cy="122" rx="48" ry="16" fill="#A4D4EC" opacity="0.45"/>
+                            <!-- 手繪深海軍藍禮盒 -->
+                            <rect x="26" y="24" width="138" height="96" rx="8" fill="#1C355E" stroke="#3E3A39" stroke-width="2.5"/>
+                            <rect x="33" y="31" width="124" height="82" rx="5" fill="none" stroke="#FAD77B" stroke-width="1.8" stroke-dasharray="6 2"/>
+                            <!-- 金色緞帶 -->
+                            <path d="M26 72 Q95 68 164 72" stroke="#FAD77B" stroke-width="4" fill="none"/>
+                            <path d="M95 24 Q92 72 95 120" stroke="#FAD77B" stroke-width="4" fill="none"/>
+                            <text x="95" y="61" font-size="16" font-weight="bold" text-anchor="middle" fill="#FFFDF9" letter-spacing="2">ROYCE'</text>
+                            <text x="95" y="96" font-size="9" font-weight="bold" text-anchor="middle" fill="#FAD77B">NAMA CHOCOLATE</text>
+                            
+                            <!-- 手繪方塊生巧克力盤與可可粉質感 -->
+                            <ellipse cx="235" cy="112" rx="64" ry="18" fill="#FFFDF9" stroke="#3E3A39" stroke-width="2"/>
+                            <!-- 生巧克力方塊 1 (後) -->
+                            <polygon points="196,76 226,68 242,80 212,88" fill="#5C3317" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="196,76 212,88 212,102 196,90" fill="#3E1E0C" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="212,88 242,80 242,94 212,102" fill="#4A2511" stroke="#3E3A39" stroke-width="2"/>
+                            <!-- 生巧克力方塊 2 (右) -->
+                            <polygon points="234,82 266,74 280,86 248,94" fill="#633719" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="234,82 248,94 248,108 234,96" fill="#3E1E0C" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="248,94 280,86 280,100 248,108" fill="#4A2511" stroke="#3E3A39" stroke-width="2"/>
+                            <!-- 生巧克力方塊 3 (前中) -->
+                            <polygon points="206,92 238,84 252,96 220,104" fill="#5A3015" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="206,92 220,104 220,117 206,105" fill="#3A1B0A" stroke="#3E3A39" stroke-width="2"/>
+                            <polygon points="220,104 252,96 252,109 220,117" fill="#4A2511" stroke="#3E3A39" stroke-width="2"/>
+                            <!-- 細緻可可粉點點 -->
+                            <circle cx="215" cy="76" r="1" fill="#2A1205"/><circle cx="225" cy="74" r="1.2" fill="#2A1205"/>
+                            <circle cx="250" cy="83" r="1" fill="#2A1205"/><circle cx="262" cy="80" r="1.1" fill="#2A1205"/>
+                            <circle cx="224" cy="93" r="1.1" fill="#2A1205"/><circle cx="236" cy="91" r="1" fill="#2A1205"/>
+                            <!-- 可愛甜點小叉子 -->
+                            <path d="M254 50 L236 86" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="256" cy="48" r="3.5" fill="#FAD77B" stroke="#3E3A39" stroke-width="1.5"/>
+                        </g>
                     </svg>
                 `;
             }
             if (item.imgType === 'rokkatei') {
                 return `
-                    <svg viewBox="0 0 300 130" class="w-full h-36 rounded-xl border-2 border-ink mb-2 bg-snowpink">
-                        <rect x="45" y="20" width="210" height="90" rx="10" fill="#FFFDF9" stroke="#3E3A39" stroke-width="3"/>
-                        <rect x="55" y="28" width="190" height="74" rx="6" fill="#FCEFEF" stroke="#B9314F" stroke-width="2"/>
-                        <text x="150" y="58" font-size="16" font-weight="bold" text-anchor="middle" fill="#B9314F">六花亭 MARUSEI</text>
-                        <text x="150" y="80" font-size="11" font-weight="bold" text-anchor="middle" fill="#3E3A39">BUTTER SANDWICH • 蘭姆葡萄奶油夾心餅</text>
+                    <svg viewBox="0 0 320 150" class="w-full h-40 rounded-xl border-2 border-ink mb-2 bg-cream">
+                        <defs>
+                            <!-- 手繪油畫厚塗筆觸濾鏡 -->
+                            <filter id="oilpaint-rokkatei" x="-8%" y="-8%" width="116%" height="116%">
+                                <feTurbulence type="fractalNoise" baseFrequency="0.065" numOctaves="4" seed="7" result="brushNoise"/>
+                                <feDisplacementMap in="SourceGraphic" in2="brushNoise" scale="4.2" xChannelSelector="R" yChannelSelector="G"/>
+                            </filter>
+                        </defs>
+                        <g filter="url(#oilpaint-rokkatei)">
+                            <!-- 油畫背景底色筆觸 -->
+                            <rect x="0" y="0" width="320" height="150" fill="#F6E6D8"/>
+                            <ellipse cx="80" cy="40" rx="75" ry="38" fill="#FAD77B" opacity="0.45"/>
+                            <ellipse cx="250" cy="115" rx="85" ry="40" fill="#E8B4B8" opacity="0.5"/>
+                            <path d="M10 130 Q160 105 310 135" stroke="#D9A773" stroke-width="18" fill="none" opacity="0.4"/>
+
+                            <!-- 左側：六花亭經典復古紅白包裝袋 (油畫質感) -->
+                            <g transform="rotate(-5 85 78)">
+                                <rect x="24" y="28" width="118" height="92" rx="6" fill="#FFFDF9" stroke="#3E3A39" stroke-width="2.5"/>
+                                <rect x="30" y="34" width="106" height="80" rx="3" fill="#B92B3A" opacity="0.92"/>
+                                <rect x="38" y="42" width="90" height="64" rx="2" fill="#FFFDF9"/>
+                                <!-- 復古紅色字樣與花紋 -->
+                                <text x="83" y="62" font-size="13" font-weight="bold" text-anchor="middle" fill="#B92B3A">六花亭</text>
+                                <text x="83" y="77" font-size="10" font-weight="bold" text-anchor="middle" fill="#3E3A39">MARUSEI</text>
+                                <text x="83" y="90" font-size="8.5" font-weight="bold" text-anchor="middle" fill="#B92B3A">BUTTER SAND</text>
+                                <path d="M45 96 L121 96" stroke="#B92B3A" stroke-width="2"/>
+                            </g>
+
+                            <!-- 右側：立體手繪油畫風 蘭姆葡萄奶油夾心餅 -->
+                            <!-- 盤子陰影 -->
+                            <ellipse cx="228" cy="122" rx="66" ry="15" fill="#C8AD90" opacity="0.7"/>
+                            <!-- 下層香酥餅乾 (金黃烘烤油畫筆觸) -->
+                            <path d="M168 92 Q228 80 286 92 L284 106 Q228 118 170 106 Z" fill="#D99B52" stroke="#3E3A39" stroke-width="2.2"/>
+                            <path d="M174 96 Q228 86 280 96" stroke="#B87333" stroke-width="3" fill="none" opacity="0.7"/>
+
+                            <!-- 中層厚實白巧克力蘭姆奶油餡 -->
+                            <path d="M172 78 Q228 66 282 78 L282 93 Q228 104 172 93 Z" fill="#FFFDF5" stroke="#3E3A39" stroke-width="2"/>
+                            <path d="M178 84 Q228 74 276 84" stroke="#F5E6C4" stroke-width="4" fill="none"/>
+
+                            <!-- 飽滿蘭姆葡萄乾顆粒 (深紫褐色油畫點綴) -->
+                            <ellipse cx="195" cy="87" rx="8" ry="5" fill="#4A1C2F" stroke="#2D0F1B" stroke-width="1.5"/>
+                            <ellipse cx="226" cy="91" rx="9" ry="5.5" fill="#3D1526" stroke="#2D0F1B" stroke-width="1.5"/>
+                            <ellipse cx="258" cy="86" rx="8" ry="5" fill="#4A1C2F" stroke="#2D0F1B" stroke-width="1.5"/>
+                            <ellipse cx="212" cy="82" rx="6" ry="3.5" fill="#5E263E"/>
+                            <ellipse cx="244" cy="81" rx="6.5" ry="3.5" fill="#5E263E"/>
+
+                            <!-- 上層香酥餅乾 (帶有格子壓紋與油畫高光) -->
+                            <path d="M168 64 Q228 50 286 64 L284 78 Q228 89 170 78 Z" fill="#E3A857" stroke="#3E3A39" stroke-width="2.2"/>
+                            <path d="M176 64 Q228 53 278 64" stroke="#F7D08A" stroke-width="3.5" fill="none" opacity="0.85"/>
+                            <!-- 餅乾表面烘焙氣孔與交叉紋理 -->
+                            <circle cx="198" cy="66" r="1.5" fill="#9E5B24"/>
+                            <circle cx="226" cy="63" r="1.5" fill="#9E5B24"/>
+                            <circle cx="254" cy="66" r="1.5" fill="#9E5B24"/>
+                            <path d="M204 59 L216 72 M234 59 L246 72 M218 59 L206 72 M248 59 L236 72" stroke="#B87333" stroke-width="1.5" opacity="0.65"/>
+                        </g>
+                    </svg>
+                `;
+            }
+            if (item.imgType === 'rokkatei_strawberry') {
+                return `
+                    <svg viewBox="0 0 320 150" class="w-full h-40 rounded-xl border-2 border-ink mb-2 bg-snowpink">
+                        <defs>
+                            <filter id="handdrawn-strawberry" x="-6%" y="-6%" width="112%" height="112%">
+                                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="11" result="noise"/>
+                                <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" />
+                            </filter>
+                        </defs>
+                        <g filter="url(#handdrawn-strawberry)">
+                            <!-- 柔和手繪背景光暈 -->
+                            <circle cx="75" cy="40" r="32" fill="#FFFDF9" opacity="0.7"/>
+                            <ellipse cx="250" cy="118" rx="58" ry="18" fill="#FAD77B" opacity="0.35"/>
+
+                            <!-- 左側：六花亭經典花朵圖案圓筒禮盒 (手繪風) -->
+                            <g transform="rotate(-4 86 78)">
+                                <rect x="34" y="34" width="102" height="84" rx="10" fill="#FFFDF9" stroke="#3E3A39" stroke-width="2.5"/>
+                                <ellipse cx="85" cy="34" rx="51" ry="11" fill="#F8E8EE" stroke="#3E3A39" stroke-width="2.5"/>
+                                <!-- 手繪小花朵裝飾 -->
+                                <circle cx="54" cy="60" r="5" fill="#F4A69A"/><circle cx="54" cy="60" r="2" fill="#FAD77B"/>
+                                <circle cx="116" cy="58" r="5.5" fill="#A4D4EC"/><circle cx="116" cy="58" r="2" fill="#FAD77B"/>
+                                <circle cx="52" cy="96" r="4.5" fill="#C2E0B4"/><circle cx="52" cy="96" r="1.8" fill="#FAD77B"/>
+                                <circle cx="118" cy="94" r="5" fill="#F4A69A"/><circle cx="118" cy="94" r="2" fill="#FAD77B"/>
+                                <text x="85" y="75" font-size="13" font-weight="bold" text-anchor="middle" fill="#3E3A39">六花亭</text>
+                                <text x="85" y="90" font-size="8.5" font-weight="bold" text-anchor="middle" fill="#D64550">STRAWBERRY CHOCO</text>
+                            </g>
+
+                            <!-- 右側：手繪剖面士多啤梨白朱古力 & 完整朱古力球 -->
+                            <ellipse cx="228" cy="118" rx="64" ry="14" fill="#FFFDF9" stroke="#3E3A39" stroke-width="2"/>
+
+                            <!-- 後方完整白朱古力球 -->
+                            <circle cx="256" cy="82" r="24" fill="#FFFDF5" stroke="#3E3A39" stroke-width="2.3"/>
+                            <path d="M242 68 Q254 62 266 70" stroke="#FAD77B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+                            <!-- 前方切開一半的白朱古力球（露出整顆鮮紅士多啤梨） -->
+                            <circle cx="204" cy="88" r="28" fill="#FFFDF5" stroke="#3E3A39" stroke-width="2.5"/>
+                            <!-- 內部凍乾士多啤梨剖面 -->
+                            <path d="M204 67 C218 67, 224 80, 217 95 C212 105, 206 110, 204 110 C202 110, 196 105, 191 95 C184 80, 190 67, 204 67 Z" fill="#D93848" stroke="#3E3A39" stroke-width="2"/>
+                            <!-- 草莓心型紋理與小籽 -->
+                            <path d="M204 73 C211 73, 214 82, 210 92 C207 98, 204 102, 204 102 C204 102, 201 98, 198 92 C194 82, 197 73, 204 73 Z" fill="#F26B7A" opacity="0.75"/>
+                            <circle cx="195" cy="82" r="1.2" fill="#FAD77B"/>
+                            <circle cx="213" cy="82" r="1.2" fill="#FAD77B"/>
+                            <circle cx="197" cy="92" r="1.2" fill="#FAD77B"/>
+                            <circle cx="211" cy="92" r="1.2" fill="#FAD77B"/>
+                            <!-- 草莓小綠葉蒂 -->
+                            <path d="M197 67 L204 71 L211 67 L207 63 L204 66 L201 63 Z" fill="#7FB069" stroke="#3E3A39" stroke-width="1.3"/>
+                        </g>
                     </svg>
                 `;
             }
@@ -1268,7 +1403,13 @@
                 form.innerHTML = `
                     <div><label class="text-xs font-bold">商品名稱 / Item Name</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div><label class="text-xs font-bold">數量 / Quantity</label><input type="text" name="qty" value="1" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">商品圖片網址 / Image URL (選填)</label><input type="url" name="imgUrl" placeholder="https://..." class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div>
+                        <label class="text-xs font-bold block mb-1">📱 從手機或電腦選擇圖片 / Upload Photo from Device</label>
+                        <input type="file" id="shopping-file-input" accept="image/*" onchange="previewShoppingImage(event)" class="w-full border-2 border-ink rounded-xl p-1.5 bg-cream text-xs file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border file:border-ink file:bg-yamabuki file:font-bold file:text-xs">
+                        <input type="hidden" name="imgData" id="shopping-img-data">
+                        <img id="shopping-img-preview" class="hidden mt-2 w-full h-32 object-cover rounded-xl border-2 border-ink bg-washi" alt="Preview">
+                    </div>
+                    <div><label class="text-xs font-bold">或貼上圖片網址 / Or Image URL (選填)</label><input type="url" name="imgUrl" placeholder="https://..." class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div><label class="text-xs font-bold">備註 / Notes</label><input type="text" name="notes" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
                 `;
@@ -1407,6 +1548,42 @@
 
         function closeConfirmModal() {
             document.getElementById('confirm-modal')?.classList.add('hidden');
+        }
+
+        function previewShoppingImage(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 600;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height && width > maxSize) {
+                        height = Math.round((height * maxSize) / width);
+                        width = maxSize;
+                    } else if (height > maxSize) {
+                        width = Math.round((width * maxSize) / height);
+                        height = maxSize;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+                    const hiddenInput = document.getElementById('shopping-img-data');
+                    const previewEl = document.getElementById('shopping-img-preview');
+                    if (hiddenInput) hiddenInput.value = compressedDataUrl;
+                    if (previewEl) {
+                        previewEl.src = compressedDataUrl;
+                        previewEl.classList.remove('hidden');
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         window.onload = function () {
