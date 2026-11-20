@@ -72,6 +72,112 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
+        /* Emergency Tab Styling */
+        .emerg-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .emerg-header {
+            background: linear-gradient(135deg, #F4A69A 0%, #FAD77B 100%);
+            border: 3px solid #3E3A39;
+            border-radius: 20px;
+            box-shadow: 4px 4px 0px #3E3A39;
+            padding: 1.25rem;
+            color: #3E3A39;
+        }
+        .emerg-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+        .emerg-header p {
+            font-size: 0.8rem;
+            margin-top: 0.35rem;
+            font-weight: 600;
+            opacity: 0.85;
+        }
+        .emerg-card {
+            background-color: #FFFBF3;
+            border: 3px solid #3E3A39;
+            border-radius: 20px;
+            box-shadow: 4px 4px 0px #3E3A39;
+            padding: 1.25rem;
+        }
+        .emerg-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #3E3A39;
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.85rem;
+            border-bottom: 2px dashed rgba(62, 58, 57, 0.35);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+        .emerg-sub {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(62, 58, 57, 0.7);
+        }
+        .emerg-item {
+            background-color: #FFFDF9;
+            border: 2px solid #3E3A39;
+            border-radius: 16px;
+            padding: 0.9rem;
+            margin-bottom: 0.85rem;
+        }
+        .emerg-jp {
+            background-color: #FEECA6;
+            border: 2px dashed #3E3A39;
+            border-radius: 16px;
+            padding: 0.9rem;
+            margin-top: 0.85rem;
+            text-align: center;
+        }
+        .emerg-badge {
+            display: inline-block;
+            background-color: #F4A69A;
+            color: #3E3A39;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            border: 1.5px solid #3E3A39;
+            margin-bottom: 0.45rem;
+        }
+        .emerg-badge.blue {
+            background-color: #A4D4EC;
+        }
+        .emerg-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .emerg-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.45rem 0.85rem;
+            border-radius: 12px;
+            border: 2px solid #3E3A39;
+            text-decoration: none;
+            color: #3E3A39;
+            transition: transform 0.1s ease;
+        }
+        .emerg-btn:active {
+            transform: translate(1px, 1px);
+        }
+        .emerg-call {
+            background-color: #F4A69A;
+        }
+        .emerg-map {
+            background-color: #EAF4FC;
+        }
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation: none !important;
@@ -113,13 +219,10 @@
                     <i class="fa-solid fa-yen-sign"></i> <span>Expenses</span>
                 </button>
                 <button onclick="switchTab('shoplist')" id="tab-btn-shoplist" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
-                    <i class="fa-solid fa-store"></i> <span>Shop List</span>
+                    <i class="fa-solid fa-store"></i> <span>Shop & Food</span>
                 </button>
-                <button onclick="switchTab('supermarket')" id="tab-btn-supermarket" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
-                    <i class="fa-solid fa-cart-shopping"></i> <span>Supermarket</span>
-                </button>
-                <button onclick="switchTab('restaurant')" id="tab-btn-restaurant" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
-                    <i class="fa-solid fa-utensils"></i> <span>Restaurants</span>
+                <button onclick="switchTab('emergency')" id="tab-btn-emergency" class="tab-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold border-2 border-ink bg-cream text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
+                    <span>🆘 Emergency</span>
                 </button>
             </nav>
         </div>
@@ -273,6 +376,215 @@
                     </div>
                 </div>
 
+                <!-- 行李額度指南 (直接顯示於航班資訊下方，無需切換按鈕) -->
+                <div class="mb-6 space-y-4">
+                    <h3 class="font-bold text-base sm:text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-suitcase text-coral"></i> 行李額度快速指南 / Baggage Allowance Guide
+                    </h3>
+
+                    <!-- ANA 全日空卡片 -->
+                    <article class="bg-washi rounded-2xl border-2 border-ink overflow-hidden">
+                        <div class="bg-iceblue px-4 py-3 border-b-2 border-ink">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="inline-block bg-[#0A2E6E] text-white text-xs font-bold px-2.5 py-0.5 rounded-lg border border-ink">ANA 全日空 / All Nippon Airways</span>
+                                <span class="text-xs font-bold text-[#0A2E6E] bg-white px-2.5 py-0.5 rounded-lg border border-ink">經濟艙 Economy Value • 788/781</span>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-extrabold text-ink mt-1.5">
+                                NH860 (HKG→HND) • NH057 (HND→CTS) • NH811 (NRT→HKG)
+                            </h4>
+                        </div>
+
+                        <div class="p-4 space-y-3">
+                            <!-- 手提行李 -->
+                            <div class="bg-cream rounded-xl p-3.5 border-2 border-ink">
+                                <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                                    <h5 class="font-bold text-ink text-xs sm:text-sm">🎒 手提行李 / Carry-on Baggage</h5>
+                                    <span class="text-[11px] font-bold bg-wakatake text-ink px-2.5 py-0.5 rounded-full border border-ink">
+                                        合計 Total ≤ 10 kg
+                                    </span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-ink leading-relaxed">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#1E6BB8] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>手提行李 1 件 / 1 Carry-on Bag：</strong>三邊總和 <strong>≤ 115 cm</strong>（<strong>55 × 40 × 25 cm</strong> 以內）。
+                                            <span class="block text-[11px] text-ink/70">Total linear dimensions ≤ 115 cm (within 55 × 40 × 25 cm).</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#1E6BB8] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>個人隨身物品 1 件 / 1 Personal Item：</strong><strong>40 × 30 × 20 cm</strong> 以內（如手袋、背包）。
+                                            <span class="block text-[11px] text-ink/70">Within 40 × 30 × 20 cm (e.g., handbag, small backpack).</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 託運行李 -->
+                            <div class="bg-cream rounded-xl p-3.5 border-2 border-ink">
+                                <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                                    <h5 class="font-bold text-ink text-xs sm:text-sm">🧳 託運行李 / Checked Baggage</h5>
+                                    <span class="text-[11px] font-bold bg-mizuiro text-ink px-2.5 py-0.5 rounded-full border border-ink">
+                                        每位成人免費 1 件 / 1 Free Bag per Adult
+                                    </span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-ink leading-relaxed">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#1E6BB8] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>單件重量上限 / Max Weight per Bag：</strong>每件 <strong>≤ 23 kg</strong>。
+                                            <span class="block text-[11px] text-ink/70">Up to 23 kg (50 lbs) per piece.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#1E6BB8] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>尺寸上限 / Max Dimensions：</strong>長＋寬＋高總和 <strong>≤ 158 cm（62 吋）</strong>（含輪子及手把）。
+                                            <span class="block text-[11px] text-ink/70">Total linear dimensions (L + W + H) ≤ 158 cm (62 in), including wheels & handles.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 超額 / 加購費用 (NRT -> HKG) -->
+                            <div class="bg-butter/60 rounded-xl p-3.5 border-2 border-ink">
+                                <h5 class="font-bold text-ink text-xs sm:text-sm mb-2">
+                                    💳 超額／加購費用（成田 NRT → 香港 HKG）
+                                    <span class="block text-[11px] font-semibold text-ink/75">Extra / Overweight Fees (Tokyo Narita NRT → Hong Kong HKG)</span>
+                                </h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <div class="bg-washi rounded-lg p-2.5 border-2 border-ink">
+                                        <div class="text-[11px] text-ink/80 font-bold">官網預先加購 1 件（≤23kg）<br><span class="font-normal text-[10px] text-ink/65">Pre-purchase 1 Extra Bag Online (≤23kg)</span></div>
+                                        <div class="text-sm sm:text-base font-extrabold text-[#0A2E6E] mt-1">HKD $500 <span class="text-[11px] font-normal text-ink/70">/ 件 (pc)</span></div>
+                                    </div>
+                                    <div class="bg-washi rounded-lg p-2.5 border-2 border-ink">
+                                        <div class="text-[11px] text-ink/80 font-bold">機場超重費（不加件，23–32kg）<br><span class="font-normal text-[10px] text-ink/65">Airport Overweight Fee (23–32kg, same bag)</span></div>
+                                        <div class="text-sm sm:text-base font-extrabold text-ink mt-1">¥6,000 JPY <span class="text-[11px] font-normal text-ink/70">/ 件 (pc)</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Jetstar Japan 捷星日本卡片 -->
+                    <article class="bg-washi rounded-2xl border-2 border-ink overflow-hidden">
+                        <div class="bg-snowpink px-4 py-3 border-b-2 border-ink">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="inline-block bg-[#E8531E] text-white text-xs font-bold px-2.5 py-0.5 rounded-lg border border-ink">Jetstar Japan 捷星日本</span>
+                                <span class="text-xs font-bold text-[#E8531E] bg-white px-2.5 py-0.5 rounded-lg border border-ink">經濟艙 Economy • A321neo</span>
+                            </div>
+                            <h4 class="text-sm sm:text-base font-extrabold text-ink mt-1.5">
+                                GK110（札幌新千歲 CTS → 東京成田 NRT）
+                            </h4>
+                        </div>
+
+                        <div class="p-4 space-y-3">
+                            <!-- 手提行李 -->
+                            <div class="bg-cream rounded-xl p-3.5 border-2 border-ink">
+                                <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                                    <h5 class="font-bold text-ink text-xs sm:text-sm">🎒 手提行李 / Carry-on Baggage</h5>
+                                    <span class="text-[11px] font-bold bg-coral text-ink px-2.5 py-0.5 rounded-full border border-ink">
+                                        合計 Total ≤ 7 kg
+                                    </span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-ink leading-relaxed">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#E8531E] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>最多 2 件 / Max 2 Items：</strong>1 件主要行李（<strong>≤ 56 × 36 × 23 cm</strong>）＋ 1 件小型隨身物品（須可放入前方座位下）。
+                                            <span class="block text-[11px] text-ink/70">1 main bag (≤ 56 × 36 × 23 cm) + 1 small personal item (must fit under the seat in front).</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#E8531E] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>重量提示 / Weight Reminder：</strong>兩件合計不可超過 <strong>7 kg</strong>，登機前較易抽磅。
+                                            <span class="block text-[11px] text-ink/70">Combined weight must not exceed 7 kg; gate weighing checks are common.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 託運行李 -->
+                            <div class="bg-cream rounded-xl p-3.5 border-2 border-ink">
+                                <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                                    <h5 class="font-bold text-ink text-xs sm:text-sm">🧳 託運行李 / Checked Baggage</h5>
+                                    <span class="text-[11px] font-bold bg-yamabuki text-ink px-2.5 py-0.5 rounded-full border border-ink">
+                                        已購每人 30 kg / 30 kg Purchased per Adult
+                                    </span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-ink leading-relaxed">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#E8531E] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>件數與總重 / Piece & Total Weight：</strong>按總重量計算（<strong>不限件數</strong>），每位成人已包含 <strong>30 kg</strong> 額度。
+                                            <span class="block text-[11px] text-ink/70">Calculated by total weight (no piece limit); 30 kg allowance included per adult.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#E8531E] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>單件重量上限 / Max Single Bag Weight：</strong>單件行李不可超過 <strong>32 kg</strong>。
+                                            <span class="block text-[11px] text-ink/70">No single checked bag may exceed 32 kg.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-[#E8531E] font-bold mt-0.5">•</span>
+                                        <div>
+                                            <strong>尺寸上限 / Max Length：</strong>單邊長度 <strong>≤ 100 cm（1 米）</strong>（含輪子及手把）；超過 1 米需另付超大尺寸手續費。
+                                            <span class="block text-[11px] text-ink/70">Any single side must be ≤ 100 cm (1 meter) incl. wheels/handles; oversized fee applies over 1 m.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 回程日快速清單（12月25日：CTS -> NRT -> HKG） -->
+                    <div class="bg-gradient-to-br from-slate-900 to-[#0A2E6E] text-white rounded-2xl border-2 border-ink p-4">
+                        <div class="mb-2.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-sky-300">Return Day Quick Checklist</span>
+                            <h4 class="text-sm sm:text-base font-extrabold mt-0.5">
+                                ✈️ 回程日快速清單（12月25日：CTS → NRT → HKG）<br>
+                                <span class="text-xs font-semibold text-sky-200">Return Day Quick Checklist (Dec 25: CTS → NRT → HKG)</span>
+                            </h4>
+                        </div>
+
+                        <div class="space-y-2.5 text-xs leading-relaxed">
+                            <label class="flex items-start gap-2.5 bg-white/10 hover:bg-white/15 transition-colors p-3 rounded-xl cursor-pointer select-none border border-white/15">
+                                <input type="checkbox" class="mt-0.5 w-4 h-4 accent-sky-400 rounded shrink-0" />
+                                <div>
+                                    <strong class="text-sky-200 block">1. 手提行李跟最嚴標準（≤ 7 kg、≤ 55×36×23 cm）</strong>
+                                    <span class="text-sky-100/90 font-semibold block text-[11px] mb-0.5">Follow the stricter carry-on limit (≤ 7 kg, ≤ 55×36×23 cm)</span>
+                                    同日先搭 Jetstar 再轉 ANA，手提控制喺 <strong>7 kg 以內</strong>、尺寸 <strong>55 × 36 × 23 cm 以內</strong>，兩程都穩陣過關。
+                                    <span class="block text-[11px] text-white/75 mt-0.5">Flying Jetstar then ANA on the same day—keeping carry-on within 7 kg and 55×36×23 cm clears both airlines smoothly.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-2.5 bg-white/10 hover:bg-white/15 transition-colors p-3 rounded-xl cursor-pointer select-none border border-white/15">
+                                <input type="checkbox" class="mt-0.5 w-4 h-4 accent-sky-400 rounded shrink-0" />
+                                <div>
+                                    <strong class="text-sky-200 block">2. 善用 ANA 官網預加 HKD $500 分箱更輕鬆</strong>
+                                    <span class="text-sky-100/90 font-semibold block text-[11px] mb-0.5">Pre-book an extra ANA bag for HKD $500 to pack comfortably</span>
+                                    ANA 官網預先加多 1 件只需 <strong>HKD $500</strong>（≤ 23 kg），分兩箱裝戰利品比硬塞一箱更易搬，又符合 Jetstar 每人 30 kg 總額。
+                                    <span class="block text-[11px] text-white/75 mt-0.5">Adding 1 extra bag online with ANA costs only HKD $500 (≤ 23 kg)—splitting souvenirs across two bags is easier to carry and fits Jetstar's 30 kg allowance.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-2.5 bg-white/10 hover:bg-white/15 transition-colors p-3 rounded-xl cursor-pointer select-none border border-white/15">
+                                <input type="checkbox" class="mt-0.5 w-4 h-4 accent-sky-400 rounded shrink-0" />
+                                <div>
+                                    <strong class="text-sky-200 block">3. 檢查單件重量與行李箱尺寸</strong>
+                                    <span class="text-sky-100/90 font-semibold block text-[11px] mb-0.5">Verify individual bag weight & suitcase dimensions</span>
+                                    託運單件唔好超過 <strong>23 kg</strong>（ANA 標準／加購件）或 <strong>32 kg</strong>（Jetstar 絕對上限），大箱留意尺寸唔好超標。
+                                    <span class="block text-[11px] text-white/75 mt-0.5">Keep each checked bag ≤ 23 kg (ANA limit) and ≤ 32 kg (Jetstar hard cap), and check large suitcase dimensions.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 住宿資訊 -->
                 <div class="mb-6">
                     <h3 class="font-bold text-base sm:text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-hotel text-wakatake"></i> 住宿資訊 / Hotel & Accommodation</h3>
@@ -342,28 +654,50 @@
             </div>
         </section>
 
-        <!-- 2.5 新增 Shop List Tab -->
-        <section id="tab-shoplist" class="tab-content hidden space-y-6">
-            <div class="flat-card p-6 bg-yamabuki/30">
-                <h2 class="text-xl sm:text-2xl font-bold text-ink mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-store text-coral"></i> Recommended Shop List
-                </h2>
-                <p class="text-xs text-ink/70 mb-4">Major shopping malls, sporting goods & entertainment centers for the trip!</p>
-                <div id="shoplist-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Javascript Dynamic Render -->
+        <!-- 2.5 整合 Shop & Food 分頁 (含 Shop / Supermarket / Restaurant 子分類切換) -->
+        <section id="tab-shoplist" class="tab-content hidden space-y-5">
+            <div class="flat-card p-5 sm:p-6 bg-yamabuki/25">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-ink flex items-center gap-2">
+                            <i class="fa-solid fa-store text-coral"></i> Shop & Food Guide / 購物與美食指南
+                        </h2>
+                        <p class="text-xs text-ink/70 mt-0.5">點擊下方分類切換查看購物商場、旭川超市（附 MapCode）及推薦餐廳</p>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- 2.6 Supermarket Tab -->
-        <section id="tab-supermarket" class="tab-content hidden space-y-6">
-            <div class="flat-card p-6 bg-wakatake/30">
-                <h2 class="text-xl sm:text-2xl font-bold text-ink mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-cart-shopping text-coral"></i> Supermarket Guide / 旭川超市採買資訊
-                </h2>
-                <p class="text-xs text-ink/70 mb-4">Asahikawa local supermarkets & MEGA Don Quijote with MapCode, business hours & phone numbers.</p>
-                <div id="supermarket-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Javascript Dynamic Render -->
+                <!-- 子分類切換按鈕列 (Pill Buttons) -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4">
+                    <button type="button" onclick="switchShopSubTab('shop')" id="subtab-btn-shop" class="shop-subtab-btn flex items-center gap-1.5 px-4 py-2 rounded-full font-bold border-2 border-ink bg-yamabuki text-ink shadow-[2px_2px_0px_#3E3A39] text-xs sm:text-sm transition-all whitespace-nowrap">
+                        <span>🛍️</span> <span>Shop</span>
+                    </button>
+                    <button type="button" onclick="switchShopSubTab('supermarket')" id="subtab-btn-supermarket" class="shop-subtab-btn flex items-center gap-1.5 px-4 py-2 rounded-full font-bold border-2 border-ink bg-washi text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
+                        <span>🛒</span> <span>Supermarket</span>
+                    </button>
+                    <button type="button" onclick="switchShopSubTab('restaurant')" id="subtab-btn-restaurant" class="shop-subtab-btn flex items-center gap-1.5 px-4 py-2 rounded-full font-bold border-2 border-ink bg-washi text-ink text-xs sm:text-sm transition-all whitespace-nowrap">
+                        <span>🍴</span> <span>Restaurant</span>
+                    </button>
+                </div>
+
+                <!-- 子分類 1: Shop -->
+                <div id="subtab-content-shop" class="shop-subtab-content">
+                    <div id="shoplist-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Javascript Dynamic Render -->
+                    </div>
+                </div>
+
+                <!-- 子分類 2: Supermarket -->
+                <div id="subtab-content-supermarket" class="shop-subtab-content hidden">
+                    <div id="supermarket-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Javascript Dynamic Render -->
+                    </div>
+                </div>
+
+                <!-- 子分類 3: Restaurant -->
+                <div id="subtab-content-restaurant" class="shop-subtab-content hidden">
+                    <div id="restaurant-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Javascript Dynamic Render -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -412,15 +746,81 @@
             </div>
         </section>
 
-        <!-- 5. 餐廳資訊 Tab -->
-        <section id="tab-restaurant" class="tab-content hidden space-y-6">
-            <div class="flat-card p-6 bg-cream">
-                <h2 class="text-xl sm:text-2xl font-bold text-ink mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-utensils text-coral"></i> 餐廳口袋清單 / Restaurant Guide
-                </h2>
-                <p class="text-xs text-ink/70 mb-4">Ramen, Yakiniku, Sukiyaki & Seafood in Hokkaido!</p>
-                <div id="restaurant-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Javascript 動態生成 -->
+        <!-- 6. 緊急醫療與保險指南 Tab -->
+        <section id="tab-emergency" class="tab-content hidden">
+            <div id="emergency-guide" class="emerg-wrap">
+                <div class="emerg-header">
+                    <h2>🆘 北海道滑雪・緊急醫療指南<br><span style="font-size:0.95rem;font-weight:500;">Hokkaido Ski Emergency & Insurance Guide</span></h2>
+                    <p>神居 / 聖誕禮物公園 / 坎莫爾滑雪場適用 (Kamui / Santa Present / Canmore)</p>
+                </div>
+
+                <!-- 1. 急救步驟 & 雪場電話 -->
+                <div class="emerg-card">
+                    <div class="emerg-title">⛷️ 受傷急救與雪場熱線 <span class="emerg-sub">First Aid & Ski Resort Patrol Hotlines</span></div>
+                    <p style="font-size:0.9rem;margin-bottom:10px;"><strong>1. 切勿勉強落山 / 自行搭的士：</strong>立即聯絡雪場巡邏隊 (Ski Patrol) 用救護雪橇送落山，或致電日本免費急救 <strong><a href="tel:119" style="color:#d9381e;">119</a></strong>。<br><span style="color:#64748b;font-size:0.82rem;">Do NOT walk down or take a taxi. Contact Ski Patrol or dial 119 (Free Ambulance).</span></p>
+                    
+                    <div class="emerg-item" style="font-size:0.88rem;">
+                        <p style="margin:0 0 6px;">🎿 <strong>神居滑雪場 Kamui Ski Links：</strong> <a href="tel:+81166722311" style="color:#d9381e;font-weight:bold;">+81 166-72-2311</a></p>
+                        <p style="margin:0 0 6px;">🎄 <strong>聖誕禮物公園 Santa Present Park：</strong> <a href="tel:+81166633232" style="color:#d9381e;font-weight:bold;">+81 166-63-3232</a></p>
+                        <p style="margin:0;">🏔️ <strong>坎莫爾滑雪場 Canmore Ski Village：</strong> <a href="tel:+81166825001" style="color:#d9381e;font-weight:bold;">+81 166-82-5001</a></p>
+                    </div>
+
+                    <div class="emerg-jp">
+                        <div style="font-size:0.75rem;color:#b45309;font-weight:700;">👇 醫院櫃檯登記時直接出示 | Show at Hospital Reception 👇</div>
+                        <div style="font-size:1.15rem;font-weight:700;margin:6px 0;">スキーで怪我をしました。<br>整形外科を受診したいです。</div>
+                        <div style="font-size:0.82rem;color:#64748b;">我滑雪受傷了，想看骨科 / 外科。<br>I got injured while skiing and need to see an orthopedist.</div>
+                    </div>
+                </div>
+
+                <!-- 2. 旭川市區醫院 -->
+                <div class="emerg-card">
+                    <div class="emerg-title">🏥 旭川市區外語醫院 <span class="emerg-sub">Asahikawa Hospitals (English / Chinese Support)</span></div>
+
+                    <div class="emerg-item">
+                        <span class="emerg-badge">首選・距離神居/聖誕公園最近 (Closest to Kamui / Santa)</span>
+                        <div style="font-weight:700;font-size:1rem;">日本紅十字社 旭川紅十字醫院<br><span style="font-size:0.85rem;color:#475569;">Japanese Red Cross Asahikawa Hospital</span></div>
+                        <div style="font-size:0.85rem;margin-top:6px;">📍 北海道旭川市曙1条1丁目1番1號 (1-1-1 Akebono 1-jo, Asahikawa)</div>
+                        <div style="font-size:0.85rem;margin-top:4px;">🕒 門診 08:30–11:00（週末休）｜<strong>急症室 24 小時 (24-Hr ER)</strong></div>
+                        <div style="font-size:0.9rem;margin-top:4px;font-weight:700;">☎️ 電話 Tel：+81 166-22-8111</div>
+                        <div class="emerg-btns">
+                            <a href="tel:+81166228111" class="emerg-btn emerg-call">📞 撥打 +81 166-22-8111</a>
+                            <a href="https://maps.google.com/?q=旭川赤十字病院" target="_blank" class="emerg-btn emerg-map">🗺️ Google Maps 導航</a>
+                        </div>
+                    </div>
+
+                    <div class="emerg-item">
+                        <span class="emerg-badge blue">距離坎莫爾最近・設備最頂尖 (Closest to Canmore Ski Village)</span>
+                        <div style="font-weight:700;font-size:1rem;">旭川醫科大學附屬醫院<br><span style="font-size:0.85rem;color:#475569;">Asahikawa Medical University Hospital</span></div>
+                        <div style="font-size:0.85rem;margin-top:6px;">📍 北海道旭川市綠丘東2条1丁目1番1號 (1-1-1 Midorigaoka Higashi 2-jo)</div>
+                        <div style="font-size:0.85rem;margin-top:4px;">🕒 門診 08:30–12:00（週末休）｜<strong>急症專線 ER：+81 166-66-9901</strong></div>
+                        <div style="font-size:0.9rem;margin-top:4px;font-weight:700;">☎️ 總機 Tel：+81 166-65-2111</div>
+                        <div class="emerg-btns">
+                            <a href="tel:+81166669901" class="emerg-btn emerg-call">📞 急症 +81 166-66-9901</a>
+                            <a href="https://maps.google.com/?q=旭川医科大学病院" target="_blank" class="emerg-btn emerg-map">🗺️ Google Maps 導航</a>
+                        </div>
+                    </div>
+
+                    <div class="emerg-item" style="margin-bottom:0;">
+                        <span class="emerg-badge blue">市中心官方推薦外語醫院 (City Center Recommended)</span>
+                        <div style="font-weight:700;font-size:1rem;">市立旭川醫院<br><span style="font-size:0.85rem;color:#475569;">Asahikawa City Hospital</span></div>
+                        <div style="font-size:0.85rem;margin-top:6px;">📍 北海道旭川市金星町1丁目1番65號 (1-1-65 Kinseicho, Asahikawa)</div>
+                        <div style="font-size:0.85rem;margin-top:4px;">🕒 門診 08:00–11:00｜<strong>設夜間及假日急症 (Night & Holiday ER)</strong></div>
+                        <div style="font-size:0.9rem;margin-top:4px;font-weight:700;">☎️ 電話 Tel：+81 166-24-3181</div>
+                        <div class="emerg-btns">
+                            <a href="tel:+81166243181" class="emerg-btn emerg-call">📞 撥打 +81 166-24-3181</a>
+                            <a href="https://maps.google.com/?q=市立旭川病院" target="_blank" class="emerg-btn emerg-map">🗺️ Google Maps 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Claim 保險防漏清單 -->
+                <div class="emerg-card" style="margin-bottom:0;">
+                    <div class="emerg-title">📋 Claim 保險必備 3 寶 <span class="emerg-sub">3 Must-Have Documents for Insurance Claim</span></div>
+                    <div style="background:#f1f5f9;padding:12px;border-radius:10px;font-size:0.88rem;">
+                        <p style="margin:0 0 8px;">✅ <strong>1. 醫生診斷書 (Medical Certificate)：</strong>列明全名、就診日期、具體傷勢（骨折/扭傷）。<br><span style="color:#64748b;font-size:0.8rem;">Must state full name, date of visit & exact diagnosis (do NOT just take a payment receipt).</span></p>
+                        <p style="margin:0 0 8px;">✅ <strong>2. 正本醫療收據 (Original Itemized Receipt)：</strong>有醫院蓋章、列明 X-Ray / 診金 / 藥費明細。<br><span style="color:#64748b;font-size:0.8rem;">Original stamped hospital receipt showing itemized breakdown.</span></p>
+                        <p style="margin:0;">✅ <strong>3. 雪場證明 (Ski Pass / Ticket Proof)：</strong>影低雪場門票及保留購票信用卡紀錄。<br><span style="color:#64748b;font-size:0.8rem;">Take a photo of your Ski Pass & keep payment record as proof of leisure skiing.</span></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -701,6 +1101,7 @@
         let restaurants = JSON.parse(localStorage.getItem('hokkaido_restaurants_2026')) || defaultRestaurants;
 
         let currentTab = 'itinerary';
+        let currentShopSubTab = 'shop';
         let selectedDate = '2026-12-15';
         let editingItem = null;
         let deleteCallback = null;
@@ -736,96 +1137,112 @@
             }
         }
 
+        function switchShopSubTab(subTabId) {
+            currentShopSubTab = subTabId;
+            document.querySelectorAll('.shop-subtab-content').forEach(el => el.classList.add('hidden'));
+            const targetContent = document.getElementById(`subtab-content-${subTabId}`);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            document.querySelectorAll('.shop-subtab-btn').forEach(btn => {
+                btn.classList.remove('bg-yamabuki', 'shadow-[2px_2px_0px_#3E3A39]');
+                btn.classList.add('bg-washi');
+            });
+            const activeSubBtn = document.getElementById(`subtab-btn-${subTabId}`);
+            if (activeSubBtn) {
+                activeSubBtn.classList.remove('bg-washi');
+                activeSubBtn.classList.add('bg-yamabuki', 'shadow-[2px_2px_0px_#3E3A39]');
+            }
+        }
+
         function startCountdown() {
-            const targetDate = new Date('2026-12-15T14:20:00+08:00').getTime();
             const banner = document.getElementById('countdown-banner');
-            function update() {
-                const now = new Date().getTime();
-                const diff = targetDate - now;
-                if (!banner) return;
+            if (!banner) return;
+            const tripStart = new Date('2026-12-15T14:20:00+08:00').getTime();
+            const updateTimer = () => {
+                const now = Date.now();
+                const diff = tripStart - now;
                 if (diff <= 0) {
-                    banner.innerHTML = `<i class="fa-solid fa-plane-departure text-coral"></i> <span>旅程已展開！Have a wonderful trip! ⛄</span>`;
+                    banner.innerHTML = '<i class="fa-solid fa-snowflake text-mizuiro"></i> <span>旅程進行中！Have a wonderful Hokkaido Trip! ⛷️</span>';
                     return;
                 }
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                banner.innerHTML = `<i class="fa-solid fa-clock text-coral"></i> <span>距離出發還有 ${days} 天 ${hours} 小時 / ${days}d ${hours}h to Departure!</span>`;
-            }
-            update();
-            setInterval(update, 60000);
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const mins = Math.floor((diff / (1000 * 60)) % 60);
+                banner.innerHTML = `<i class="fa-solid fa-clock text-coral"></i> <span>距離出發還有 ${days} 天 ${hours} 小時 ${mins} 分 / ${days}d ${hours}h ${mins}m to go!</span>`;
+            };
+            updateTimer();
+            setInterval(updateTimer, 60000);
+        }
+
+        function getCategoryBadgeColor(category) {
+            const map = {
+                '景點': 'bg-mizuiro',
+                '住宿': 'bg-wakatake',
+                '美食': 'bg-coral',
+                '購物': 'bg-yamabuki',
+                '娛樂': 'bg-snowpink',
+                '航班': 'bg-iceblue',
+                '其他': 'bg-milk'
+            };
+            return map[category] || 'bg-cream';
         }
 
         function renderDateScroller() {
-            const container = document.getElementById('date-scroller');
-            if (!container) return;
-            container.innerHTML = '';
-            const dayLabelMap = {
-                "2026-12-15": { day: "Day 1", date: "Dec 15", week: "(Tue)" },
-                "2026-12-16": { day: "Day 2", date: "Dec 16", week: "(Wed)" },
-                "2026-12-17": { day: "Day 3", date: "Dec 17", week: "(Thu)" },
-                "2026-12-18": { day: "Day 4", date: "Dec 18", week: "(Fri)" },
-                "2026-12-19": { day: "Day 5", date: "Dec 19", week: "(Sat)" },
-                "2026-12-20_23": { day: "Day 6 - 9", date: "Dec 20 - 23", week: "(Sun-Wed)" },
-                "2026-12-24": { day: "Day 10", date: "Dec 24", week: "(Thu)" },
-                "2026-12-25": { day: "Day 11", date: "Dec 25", week: "(Fri)" }
-            };
-            Object.keys(itineraryData).forEach((dateKey, index) => {
+            const scroller = document.getElementById('date-scroller');
+            if (!scroller) return;
+            scroller.innerHTML = '';
+            const keys = Object.keys(itineraryData);
+            let dayCounter = 1;
+
+            keys.forEach(dateKey => {
                 const dayObj = itineraryData[dateKey];
                 const isSelected = dateKey === selectedDate;
-                const mapped = dayLabelMap[dateKey];
-                const parts = dayObj.dateStr.split(' ');
-                const dayLabel = mapped ? mapped.day : `Day ${index + 1}`;
-                const dateLabel = mapped ? mapped.date : `${parts[0]} ${parts[1]}`;
-                const weekLabel = mapped ? mapped.week : (parts[2] || '');
+                let dayLabel = `Day ${dayCounter}`;
+                if (dateKey === '2026-12-20_23') {
+                    dayLabel = 'Day 6 - 9';
+                    dayCounter += 4;
+                } else {
+                    dayCounter += 1;
+                }
+
                 const btn = document.createElement('button');
-                btn.className = `flex-shrink-0 px-3.5 py-2 rounded-2xl border-2 border-ink font-bold text-center transition-all ${isSelected ? 'bg-yamabuki shadow-[3px_3px_0px_#3E3A39] -translate-y-0.5' : 'bg-washi hover:bg-cream'}`;
-                btn.innerHTML = `
-                    <div class="text-[10px] text-ink/70">${dayLabel}</div>
-                    <div class="text-xs sm:text-sm">${dateLabel}</div>
-                    <div class="text-[10px] text-coral">${weekLabel}</div>
-                `;
+                btn.type = 'button';
                 btn.onclick = () => {
                     selectedDate = dateKey;
                     renderDateScroller();
                     renderDayContent();
                 };
-                container.appendChild(btn);
+                btn.className = `flex-shrink-0 px-3.5 py-2.5 rounded-2xl border-2 border-ink text-left transition-all ${
+                    isSelected
+                        ? 'bg-coral text-ink shadow-[3px_3px_0px_#3E3A39] -translate-y-0.5'
+                        : 'bg-washi text-ink/80 hover:bg-cream'
+                }`;
+                btn.innerHTML = `
+                    <div class="text-[11px] font-bold uppercase tracking-wide">${dayLabel}</div>
+                    <div class="text-xs sm:text-sm font-bold whitespace-nowrap mt-0.5">${dayObj.dateStr}</div>
+                `;
+                scroller.appendChild(btn);
             });
         }
 
         function renderDayContent() {
+            const dayHeader = document.getElementById('day-header-card');
             const dayObj = itineraryData[selectedDate];
-            if (!dayObj) return;
-
-            const headerCard = document.getElementById('day-header-card');
-            if (headerCard) {
-                headerCard.innerHTML = `
+            if (dayHeader && dayObj) {
+                dayHeader.innerHTML = `
                     <div>
-                        <div class="text-xs font-bold text-coral">${dayObj.dateStr}</div>
-                        <h3 class="text-base sm:text-lg font-bold text-ink mt-0.5">${dayObj.dayTitle}</h3>
+                        <div class="text-xs font-bold text-ink/70">${dayObj.dateStr}</div>
+                        <h3 class="font-bold text-sm sm:text-lg text-ink mt-0.5">${dayObj.dayTitle}</h3>
                     </div>
-                    <div class="text-right bg-washi px-3 py-1.5 rounded-xl border-2 border-ink flex items-center gap-2">
-                        <i class="fa-solid ${dayObj.weather.icon} text-mizuiro text-lg"></i>
-                        <div>
-                            <div class="font-bold text-xs sm:text-sm">${dayObj.weather.temp} <span class="text-[10px] text-ink/60">(體感 ${dayObj.weather.feel})</span></div>
-                            <div class="text-[10px] text-ink/70">${dayObj.weather.desc}</div>
+                    <div class="text-right flex-shrink-0 bg-washi px-3 py-1.5 rounded-xl border-2 border-ink">
+                        <div class="font-bold text-sm sm:text-base text-ink">
+                            <i class="fa-solid ${dayObj.weather?.icon || 'fa-snowflake'} text-mizuiro"></i> ${dayObj.weather?.temp || '-4°C'}
                         </div>
+                        <div class="text-[10px] font-bold text-ink/70">${dayObj.weather?.desc || 'Snow'} (體感 ${dayObj.weather?.feel || '-8°C'})</div>
                     </div>
                 `;
             }
             filterItinerary();
-        }
-
-        function getCategoryBadgeColor(cat) {
-            switch (cat) {
-                case '航班': return 'bg-mizuiro';
-                case '住宿': return 'bg-wakatake';
-                case '美食': return 'bg-coral';
-                case '購物': return 'bg-yamabuki';
-                case '娛樂': return 'bg-purple-200';
-                case '景點': return 'bg-snowpink';
-                default: return 'bg-milk';
-            }
         }
 
         function filterItinerary() {
@@ -1334,35 +1751,35 @@
         function openAddModal() {
             editingItem = null;
             const modal = document.getElementById('common-modal');
-            const form = document.getElementById('dynamic-form');
             const title = document.getElementById('modal-title');
-            if (!modal || !form) return;
+            const form = document.getElementById('dynamic-form');
+            if (!modal || !title || !form) return;
 
-            if (currentTab === 'itinerary' || currentTab === 'info') {
+            if (currentTab === 'itinerary' || currentTab === 'info' || currentTab === 'emergency') {
                 title.textContent = '新增行程 / Add Itinerary Item';
                 form.innerHTML = `
                     <div>
                         <label class="text-xs font-bold">分類 / Category</label>
                         <select name="category" class="w-full border-2 border-ink rounded-xl p-2 bg-cream font-bold text-sm">
                             <option value="景點">景點 / Sightseeing</option>
+                            <option value="住宿">住宿 / Stay</option>
                             <option value="美食">美食 / Food</option>
                             <option value="購物">購物 / Shopping</option>
                             <option value="娛樂">娛樂 / Entertainment</option>
-                            <option value="住宿">住宿 / Stay</option>
                             <option value="航班">航班 / Flight</option>
                             <option value="其他">其他 / Other</option>
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold">名稱 / Title (中英對照)</label>
+                        <label class="text-xs font-bold">名稱 / Title *</label>
                         <input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm">
                     </div>
                     <div>
-                        <label class="text-xs font-bold">時間 (僅航班顯示) / Time</label>
-                        <input type="text" name="time" placeholder="e.g. 14:20 - 19:15" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm">
+                        <label class="text-xs font-bold">時間 / Time (Optional)</label>
+                        <input type="text" name="time" placeholder="e.g. 14:00 - 16:00" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm">
                     </div>
                     <div>
-                        <label class="text-xs font-bold">備註說明 / Notes</label>
+                        <label class="text-xs font-bold">備註 / Notes</label>
                         <textarea name="notes" rows="3" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></textarea>
                     </div>
                     <div>
@@ -1370,85 +1787,93 @@
                         <input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm">
                     </div>
                     <div>
-                        <label class="text-xs font-bold">官方網頁 / Website URL</label>
+                        <label class="text-xs font-bold">官網連結 / Website URL</label>
                         <input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm">
                     </div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
-            } else if (currentTab === 'shoplist') {
-                title.textContent = '新增推薦店舖 / Add Shop';
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'shop') {
+                title.textContent = '新增購物點 / Add Shop';
                 form.innerHTML = `
-                    <div><label class="text-xs font-bold">店舖名稱 / Shop Name</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">類別 / Category</label><input type="text" name="category" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">地區 / Area</label><input type="text" name="area" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">簡介 / Notes</label><textarea name="notes" rows="2" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></textarea></div>
-                    <div><label class="text-xs font-bold">Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <div><label class="text-xs font-bold">店名 / Shop Name *</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">類型 / Category</label><input type="text" name="category" value="Shopping Mall" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">地區 / Area</label><input type="text" name="area" placeholder="e.g. Asahikawa / 旭川" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">備註 / Notes</label><textarea name="notes" rows="2" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></textarea></div>
+                    <div><label class="text-xs font-bold">Google Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">官網 / Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
-            } else if (currentTab === 'supermarket') {
-                title.textContent = '新增超市資訊 / Add Supermarket';
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'supermarket') {
+                title.textContent = '新增超市 / Add Supermarket';
                 form.innerHTML = `
-                    <div><label class="text-xs font-bold">超市名稱 / Name</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">地址 / Address</label><input type="text" name="address" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">營業時間 / Hours</label><input type="text" name="hours" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">超市名稱 / Name *</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">地址 / Address *</label><input type="text" name="address" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">營業時間 / Hours</label><input type="text" name="hours" placeholder="09:00 – 21:45" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div><label class="text-xs font-bold">電話 / Phone</label><input type="text" name="phone" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">MapCode</label><input type="text" name="mapCode" placeholder="e.g. 79 441 088*55" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <div><label class="text-xs font-bold">MapCode</label><input type="text" name="mapCode" placeholder="79 441 088*55" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">Google Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">網頁 / Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
+                `;
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'restaurant') {
+                title.textContent = '新增餐廳 / Add Restaurant';
+                form.innerHTML = `
+                    <div><label class="text-xs font-bold">餐廳名稱 / Name *</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">地區 / Area</label><input type="text" name="area" placeholder="Asahikawa / 旭川" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">招牌特色 / Specialty</label><input type="text" name="specialty" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">Google Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">網頁 / Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
             } else if (currentTab === 'shopping') {
-                title.textContent = '新增必買清單 / Add To-buy Item';
+                title.textContent = '新增必買商品 / Add To-buy Item';
                 form.innerHTML = `
-                    <div><label class="text-xs font-bold">商品名稱 / Item Name</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">數量 / Quantity</label><input type="text" name="qty" value="1" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">商品名稱 / Item Name *</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">數量 / Quantity</label><input type="text" name="qty" value="1 Box" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div>
-                        <label class="text-xs font-bold block mb-1">📱 從手機或電腦選擇圖片 / Upload Photo from Device</label>
-                        <input type="file" id="shopping-file-input" accept="image/*" onchange="previewShoppingImage(event)" class="w-full border-2 border-ink rounded-xl p-1.5 bg-cream text-xs file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border file:border-ink file:bg-yamabuki file:font-bold file:text-xs">
+                        <label class="text-xs font-bold block mb-1">📷 選擇手機／電腦圖片 (Upload Photo)</label>
+                        <input type="file" accept="image/*" onchange="previewShoppingImage(event)" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-xs">
                         <input type="hidden" name="imgData" id="shopping-img-data">
-                        <img id="shopping-img-preview" class="hidden mt-2 w-full h-32 object-cover rounded-xl border-2 border-ink bg-washi" alt="Preview">
+                        <img id="shopping-img-preview" class="hidden w-full h-36 object-cover rounded-xl border-2 border-ink mt-2" alt="Preview">
                     </div>
-                    <div><label class="text-xs font-bold">或貼上圖片網址 / Or Image URL (選填)</label><input type="url" name="imgUrl" placeholder="https://..." class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">或貼上圖片網址 / Image URL (Optional)</label><input type="url" name="imgUrl" placeholder="https://..." class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div><label class="text-xs font-bold">備註 / Notes</label><input type="text" name="notes" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
             } else if (currentTab === 'expense') {
-                title.textContent = '新增花費記錄 / Add Expense';
+                title.textContent = '新增花費 / Add Expense';
                 form.innerHTML = `
-                    <div><label class="text-xs font-bold">項目名稱 / Title</label><input type="text" name="title" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">分類 / Category</label><input type="text" name="category" value="Food / 餐飲" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">金額 (JPY) / Amount</label><input type="number" name="amount" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">項目 / Item *</label><input type="text" name="title" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">分類 / Category</label>
+                        <select name="category" class="w-full border-2 border-ink rounded-xl p-2 bg-cream font-bold text-sm">
+                            <option value="Food / 餐飲">Food / 餐飲</option>
+                            <option value="Transport / 交通">Transport / 交通</option>
+                            <option value="Shopping / 購物">Shopping / 購物</option>
+                            <option value="Activity / 活動">Activity / 活動</option>
+                            <option value="Stay / 住宿">Stay / 住宿</option>
+                        </select>
+                    </div>
+                    <div><label class="text-xs font-bold">金額 (JPY ¥) *</label><input type="number" name="amount" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
                     <div><label class="text-xs font-bold">付款人 / Payer</label><input type="text" name="payer" value="Group" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">日期 / Date</label><input type="date" name="date" value="${selectedDate}" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
-                `;
-            } else if (currentTab === 'restaurant') {
-                title.textContent = '新增口袋餐廳 / Add Restaurant';
-                form.innerHTML = `
-                    <div><label class="text-xs font-bold">餐廳名稱 / Name</label><input type="text" name="name" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">地區 / Area</label><input type="text" name="area" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">招牌菜色 / Specialty</label><input type="text" name="specialty" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">Maps URL</label><input type="url" name="mapUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">Website URL</label><input type="url" name="webUrl" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <div><label class="text-xs font-bold">日期 / Date</label><input type="date" name="date" value="${selectedDate.slice(0, 10)}" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
             } else if (currentTab === 'checklist') {
-                title.textContent = '新增旅行必備項目 / Add Checklist Item';
+                title.textContent = '新增行李清單項目 / Add Checklist Item';
                 form.innerHTML = `
                     <div>
                         <label class="text-xs font-bold">分類 / Category</label>
                         <select name="catIndex" class="w-full border-2 border-ink rounded-xl p-2 bg-cream font-bold text-sm">
-                            <option value="0">1. 重要文件 & 財務 / Documents & Finance</option>
-                            <option value="1">2. 衣物與保暖 / Clothing & Warmth</option>
+                            <option value="0">1. 文件財務 / Documents & Finance</option>
+                            <option value="1">2. 衣物保暖 / Clothing & Warmth</option>
                             <option value="2">3. 滑雪裝備 / Ski Gear</option>
-                            <option value="3">4. 3C & 電子設備 / 3C & Electronics</option>
-                            <option value="4">5. 個人用品 & 藥品 / Personal Care & Medicine</option>
+                            <option value="3">4. 3C電子 / 3C & Electronics</option>
+                            <option value="4">5. 個人藥品 / Personal Care & Medicine</option>
                         </select>
                     </div>
-                    <div><label class="text-xs font-bold">中文項目名稱 / Item (ZH)</label><input type="text" name="zh" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <div><label class="text-xs font-bold">英文項目名稱 / Item (EN - 選填)</label><input type="text" name="en" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
-                    <button type="submit" class="w-full japanese-button bg-yamabuki py-2.5 font-bold text-sm">儲存 / Save</button>
+                    <div><label class="text-xs font-bold">中文項目名稱 / Chinese Title *</label><input type="text" name="zh" required class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <div><label class="text-xs font-bold">英文翻譯 / English Translation (Optional)</label><input type="text" name="en" class="w-full border-2 border-ink rounded-xl p-2 bg-cream text-sm"></div>
+                    <button type="submit" class="japanese-button w-full py-2.5 bg-yamabuki font-bold text-sm">儲存 / Save</button>
                 `;
             }
 
@@ -1476,7 +1901,7 @@
             const fd = new FormData(e.target);
             const data = Object.fromEntries(fd.entries());
 
-            if (currentTab === 'itinerary' || currentTab === 'info') {
+            if (currentTab === 'itinerary' || currentTab === 'info' || currentTab === 'emergency') {
                 if (editingItem) {
                     Object.assign(editingItem, data);
                 } else {
@@ -1487,21 +1912,21 @@
                     });
                 }
                 renderDayContent();
-            } else if (currentTab === 'shoplist') {
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'shop') {
                 shopList.push({ id: 'shop-' + Date.now(), ...data });
                 renderShopList();
-            } else if (currentTab === 'supermarket') {
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'supermarket') {
                 supermarkets.push({ id: 'sm-' + Date.now(), ...data });
                 renderSupermarketList();
+            } else if (currentTab === 'shoplist' && currentShopSubTab === 'restaurant') {
+                restaurants.push({ id: 'rest-' + Date.now(), rating: '4.5 ★', svgType: 'zen', ...data });
+                renderRestaurantList();
             } else if (currentTab === 'shopping') {
                 shoppingItems.push({ id: 'buy-' + Date.now(), bought: false, ...data });
                 renderShoppingList();
             } else if (currentTab === 'expense') {
                 expenses.push({ id: 'exp-' + Date.now(), ...data });
                 renderExpenseList();
-            } else if (currentTab === 'restaurant') {
-                restaurants.push({ id: 'rest-' + Date.now(), rating: '4.5 ★', svgType: 'zen', ...data });
-                renderRestaurantList();
             } else if (currentTab === 'checklist') {
                 const idx = parseInt(data.catIndex, 10) || 0;
                 checklistData[idx].items.push({ zh: data.zh, en: data.en || '', checked: false });
